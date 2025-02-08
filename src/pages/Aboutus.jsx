@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 const Aboutus = () => {
+    const nav = useNavigate()
     return (
         <div className="about-container">
             <h1>About PetVet</h1>
@@ -35,7 +38,7 @@ const Aboutus = () => {
                 <p>📍 123 Pet Street, New York, NY</p>
                 <p>📞 (123) 456-7890</p>
                 <p>📧 contact@petvet.com</p>
-                <button className="btn">Book an Appointment</button>
+                <button className="btn" onClick={() => nav("/appointment")}>Book an Appointment</button>
             </section>
         </div>
     );

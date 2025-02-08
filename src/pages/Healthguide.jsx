@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 const Healthguide = () => {
+    const nav = useNavigate()
     return (
         <div className="health-container">
             <h1>Pet Health Guide</h1>
@@ -40,7 +43,7 @@ const Healthguide = () => {
             <section className="contact">
                 <h2>Need Help?</h2>
                 <p>📞 Call us at (123) 456-7890 for emergencies.</p>
-                <button className="btn">Book a Vet Appointment</button>
+                <button className="btn" onClick={() => nav("/appointment")}>Book an Appointment</button>
             </section>
         </div>
     );

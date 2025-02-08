@@ -3,40 +3,50 @@ import { useNavigate } from "react-router-dom"
 
 const Register = () => {
     const nav = useNavigate()
-    const [form, setForm] = useState({ "username": "", "email": "", "contact": "", "street": "", "state": "", "country": "", "zip": "", "password": "", "pet_name": "", "pet_species": "", "weight": "" })
+    const [form, setForm] = useState({ "username": "", "email": "", "contact": "", "street": "", "state": "", "country": "", "zip": "", "password": "", "pet_name": "", "pet_species": "", "weight": "", "vaccin_certificate": null })
     const [done, setDone] = useState(false)
     const [error, setError] = useState("")
     const handleChange = (e) => {
-        const { name, value } = e.target
-        setForm({
-            ...form,
-            [name]: value
-        })
+        const { name, value, type, files } = e.target
+        if (type === "file") {
+            setForm({
+                ...form,
+                [name]: files[0] // Store file object
+            });
+        } else {
+            setForm({
+                ...form,
+                [name]: value
+            });
+        }
     }
     const handleSubmit = async (e) => {
-        setError("")
-        e.preventDefault()
+        e.preventDefault();
+        setError("");
+
         try {
+            const formData = new FormData();
+            Object.keys(form).forEach((key) => {
+                formData.append(key, form[key]);
+            });
+
             const data = await fetch("http://localhost:5000/register/owner", {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(form)
-            })
-            const final = await data.json()
+                body: formData
+            });
+
+            const final = await data.json();
             if (!data.ok) {
-                throw new Error(final.error)
+                throw new Error(final.error);
             }
-            setDone(!done)
-
+            setDone(true);
         } catch (error) {
-            setDone(false)
-            setError(error.message)
-            console.log("Error submitting form")
+            setDone(false);
+            setError(error.message);
+            console.log("Error submitting form");
         }
+    };
 
-    }
     return (
         <div className="form-container">
             <h2>Register Your Pet</h2>
@@ -72,7 +82,7 @@ const Register = () => {
                 </div>
                 <div className="form-group">
                     <label>Password</label>
-                    <input type="password" name="password" placeholder="Choose a strong password" onChange={handleChange} required />
+                    <input type="password" name="password" onChange={handleChange} required />
                 </div>
                 <div className="form-group">
                     <label>Pet Name</label>
@@ -80,7 +90,7 @@ const Register = () => {
                 </div>
                 <div className="form-group">
                     <label>Pet Species</label>
-                    <select name="pet_species" onChange={handleChange} required defaultValue="">
+                    <select name="pet_species" onChange={handleChange} required value={form.pet_species}>
                         <option value="" disabled>Select Pet Species</option>
                         <option value="Dog">Dog</option>
                         <option value="Cattle">Cattle</option>
@@ -90,8 +100,13 @@ const Register = () => {
                     <label>Pet Weight (kg)</label>
                     <input type="text" name="weight" onChange={handleChange} required />
                 </div>
+                <div className="form-group">
+                    <label>Upload Vaccination certificate</label>
+                    <input type="file" name="vaccin_certificate" accept=".pdf" onChange={handleChange} />
+                </div>
                 <button type="submit" className="submit-btn">Submit</button>
             </form>
+
             {done && (
                 <div className="overlay">
                     <div className="success-message">
