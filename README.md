@@ -70,4 +70,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 ### Authors
-<a href="https://github.com/Whimsical-Maverick">Bhavya Gaur</a> '&nbsp'   <a href="https://github.com/raixyzaditya">Aditya Rai</a>
+<a href="https://github.com/Whimsical-Maverick">Bhavya Gaur</a>  <a href="https://github.com/raixyzaditya">Aditya Rai</a>
